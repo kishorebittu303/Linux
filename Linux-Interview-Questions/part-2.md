@@ -25,6 +25,8 @@ netstat -tuln | grep :80
 lsof -i :80
 kill -9 <PID>  # if safe to stop
 ```
+netstat= it was used to see network connections,routing process,network interface issuses... simple shows all network releated issues
+      -tuln  ==> t= tcp calls,u= udp calls,  l= listening ports , n= is it to knoe numerical ip address
 
 **Explanation:**  
 This shows the ability to identify conflicting services using `netstat` and `lsof`, and the judgment to safely terminate processes. It’s a real-world issue in multi-service environments.
@@ -40,13 +42,13 @@ You have physical access to a Linux machine but forgot the root password. How wo
 1. Reboot the machine.
 2. In GRUB menu, edit the boot entry and add:
    ```
-   init=/bin/bash
+   init=/bin/bash ( int means it was the first process that will runs in linux system.... by using this init=/bin/bash we are skipping the normal intilizations and telling directly come to bash command line interface)
    ```
 3. Once in shell:
    ```bash
-   mount -o remount,rw /
-   passwd root
-   exec /sbin/init
+   mount -o remount,rw / ( is used to mount that means changing the read only permission to read and write without doing from scratch)
+   passwd root (giving password for root access)
+   exec /sbin/init ( it will execites this sbin/init............ that means exec will replace completly the old with new aruguments in /sbin/init)
    ```
 
 **Explanation:**  
@@ -64,11 +66,12 @@ The system is using too much swap memory and becoming slow. What would you do?
 free -h
 swapon --show
 top  # check swap-using processes
-swapoff -a
-swapon -a
+swapoff -a ( it will clears all swap space on hard drive)
+swapon -a ( it will again creates a swap space to store after tottally filled in ram)
 ```
 
 **Explanation:**  
+swap space means it was the space present in hard drive.. and it was filled after the ram is completely filled
 Demonstrates understanding of virtual memory, how to monitor it, and how to clear swap. You might also investigate the need for more RAM or optimize heavy applications.
 
 ---
@@ -81,8 +84,13 @@ A critical file was deleted accidentally from the system. Can it be recovered?
 **Answer:**  
 - If it's still open by a process:
   ```bash
-  lsof | grep deleted
-  cp /proc/<pid>/fd/<fd> /recovered_file
+  lsof | grep deleted    (this was to see the process which are deleted)
+  cp /proc/<pid>/fd/<fd> /recovered_file  (మీరు /proc/1234/fd/ డైరెక్టరీలోకి వెళ్ళి ఆ ప్రాసెస్ ఓపెన్ చేసిన ఫైళ్ళను చూడవచ్చు.)
+  
+  lsof= list of all files
+  /proc = means shows the critical information of proccess
+  pid = process id
+  fd= file descriptions (that means to know what was in the file... same like cat)
   ```
 - Otherwise, restore from backup or snapshots (if available).
 
